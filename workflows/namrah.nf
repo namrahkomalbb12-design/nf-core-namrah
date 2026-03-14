@@ -55,12 +55,12 @@ workflow NAMRAH {
     ch_multiqc_files = ch_multiqc_files.mix(STAR_ALIGN.out.log_final.collect{ it[1] })
 
    // 4. SALMON_QUANT
-    // Wrapping every single file input in a [[:], path] tuple
-    SALMON_QUANT ( 
+    
+   SALMON_QUANT ( 
         TRIMGALORE.out.reads, 
-        ch_salmon_index.map { [ [:], it ] }, 
-        ch_gtf.map { [ [:], it ] }, 
-        ch_transcriptome.map { [ [:], it ] }, 
+        ch_star_index, 
+        ch_gtf, 
+        ch_transcriptome, 
         false, 
         false 
     )
