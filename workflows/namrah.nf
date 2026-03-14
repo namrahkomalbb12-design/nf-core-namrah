@@ -85,16 +85,16 @@ workflow NAMRAH {
 
    
     // 7. MULTIQC
-    // This module takes exactly ONE argument.
-    // That argument must be a tuple: [ [id:'multiqc'], [file1, file2, ...] ]
+    // Input 1: Tuple [meta, files]
+    // Inputs 2-6: Individual paths (using empty lists [] for none)
     MULTIQC ( 
-        ch_multiqc_files
-            .collect()
-            .map { files -> [ [id:'multiqc'], files ] }
+        ch_multiqc_files.collect().map { files -> [ [id:'multiqc'], files ] },
+        [], // multiqc_config
+        [], // multiqc_logo
+        [], // replace_names
+        [], // sample_names
+        []  // extra_patterns (if your module has 6 slots, usually the last is extra_config or similar)
     )
-
-    // Note: I have removed the ch_versions mixing for now to prevent the 
-    // "No such property: versions" error until the pipeline logic is stable.
     
     softwareVersionsToYAML(ch_versions.unique().collect())
         .collectFile(
