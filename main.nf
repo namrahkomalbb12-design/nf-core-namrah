@@ -36,7 +36,7 @@ workflow NFCORE_NAMRAH {
     // WORKFLOW: Run pipeline
     //
     NAMRAH (
-        samplesheet
+        samplesheet_seminar
     )
 }
 /*
