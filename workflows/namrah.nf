@@ -56,9 +56,9 @@ workflow NAMRAH {
 
    // 4. SALMON_QUANT
     
-   SALMON_QUANT ( 
+ SALMON_QUANT ( 
         TRIMGALORE.out.reads, 
-        ch_star_index, 
+        ch_salmon_index,     // <--- Changed from ch_star_index
         ch_gtf, 
         ch_transcriptome, 
         false, 
