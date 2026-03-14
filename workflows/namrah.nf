@@ -37,38 +37,24 @@ workflow NAMRAH {
     // 2. MODULE: FastQC
     // Note: ch_samplesheet is passed from the entry main.nf
     FASTQC ( ch_samplesheet )
-   ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
-    ch_versions      = ch_versions.mix(FASTQC.out.versions.first())
+    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
+    ch_versions      = ch_versions.mix(FASTQC.out.versions.first()) 
 
     // 3. MODULE: TrimGalore
-    TRIMGALORE ( ch_samplesheet )
+ TRIMGALORE ( ch_samplesheet )
     ch_multiqc_files = ch_multiqc_files.mix(TRIMGALORE.out.log.collect{it[1]})
-    ch_versions = ch_versions.mix(TRIMGALORE.out.versions.first())
+    ch_versions      = ch_versions.mix(TRIMGALORE.out.versions.first()) 
 
     // 4. MODULE: STAR Alignment
     // Uses trimmed reads and the parameters you set in test.config
-  STAR_ALIGN ( 
-        TRIMGALORE.out.reads, 
-        ch_star_index, 
-        ch_gtf, 
-        true, 
-        '', 
-        '' 
-    )
+ STAR_ALIGN ( TRIMGALORE.out.reads, ch_star_index, ch_gtf, true, '', '' )
     ch_multiqc_files = ch_multiqc_files.mix(STAR_ALIGN.out.log.collect{it[1]})
-    ch_versions = ch_versions.mix(STAR_ALIGN.out.versions.first())
+    ch_versions      = ch_versions.mix(STAR_ALIGN.out.versions.first()) // Add .first()
 
     // 5. MODULE: Salmon Quantification
-   SALMON_QUANT ( 
-        STAR_ALIGN.out.bam, 
-        ch_salmon_index, 
-        ch_gtf, 
-        ch_transcriptome, 
-        true, 
-        'IU' 
-    )
+ SALMON_QUANT ( STAR_ALIGN.out.bam, ch_salmon_index, ch_gtf, ch_transcriptome, true, 'IU' )
     ch_multiqc_files = ch_multiqc_files.mix(SALMON_QUANT.out.results.collect{it[1]})
-    ch_versions = ch_versions.mix(SALMON_QUANT.out.versions.first())
+    ch_versions      = ch_versions.mix(SALMON_QUANT.out.versions.first()) // Add .first()
 
     // 6. MODULE: MultiQC
     // This aggregates all reports into the final HTML
