@@ -69,7 +69,10 @@ workflow NAMRAH {
     ch_multiqc_files = ch_multiqc_files.mix(DUPRADAR.out.multiqc.collect{ it[1] })
 
     // 6. QUALIMAP_RNASEQ (New - from spec)
-    QUALIMAP_RNASEQ ( STAR_ALIGN.out.bam, ch_gtf )
+    QUALIMAP_RNASEQ ( 
+        STAR_ALIGN.out.bam, 
+        ch_gtf.map { [ [:], it ] } 
+    )
     ch_multiqc_files = ch_multiqc_files.mix(QUALIMAP_RNASEQ.out.results.collect{ it[1] })
 
     // 7. MULTIQC
