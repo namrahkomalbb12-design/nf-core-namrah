@@ -86,8 +86,12 @@ workflow NAMRAH {
    
     // 7. MULTIQC
     // This version only takes ONE input: a list containing [meta, files]
+   // 7. MULTIQC
+    // Simplified to a single input tuple: [meta, files]
     MULTIQC ( 
-        ch_multiqc_files.collect().map { files -> [ [id:'multiqc'], files ] }
+        ch_multiqc_files
+            .collect()
+            .map { files -> [ [id:'multiqc'], files ] }
     )
 
     // Note: I have removed the ch_versions mixing for now to prevent the 
