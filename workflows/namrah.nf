@@ -85,18 +85,12 @@ workflow NAMRAH {
 
    
     // 7. MULTIQC
-    // This version only takes ONE input: a list containing [meta, files]
-   // 7. MULTIQC
-    // Simplified to a single input tuple: [meta, files]
-   // 7. MULTIQC
-    // This matches the full nf-core signature: [meta, files], config, extra_config, logo, patterns, user_config
+    // This module takes exactly ONE argument.
+    // That argument must be a tuple: [ [id:'multiqc'], [file1, file2, ...] ]
     MULTIQC ( 
-        ch_multiqc_files.collect().map { files -> [ [id:'multiqc'], files ] },
-        [ [:], [] ], // config
-        [ [:], [] ], // extra_config
-        [ [:], [] ], // logo
-        [ [:], [] ], // patterns
-        [ [:], [] ]  // user_config
+        ch_multiqc_files
+            .collect()
+            .map { files -> [ [id:'multiqc'], files ] }
     )
 
     // Note: I have removed the ch_versions mixing for now to prevent the 
