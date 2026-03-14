@@ -85,15 +85,19 @@ workflow NAMRAH {
 
    
     // 7. MULTIQC
-    // Input 1: Tuple [meta, files]
-    // Inputs 2-6: Individual paths (using empty lists [] for none)
+    // I wrap all 6 items into ONE single list [ ] because the module 
+    // expects a single 'tuple' as input.
     MULTIQC ( 
-        ch_multiqc_files.collect().map { files -> [ [id:'multiqc'], files ] },
-        [], // multiqc_config
-        [], // multiqc_logo
-        [], // replace_names
-        [], // sample_names
-        []  // extra_patterns (if your module has 6 slots, usually the last is extra_config or similar)
+        ch_multiqc_files.collect().map { files -> 
+            [ 
+                [id:'multiqc'], // meta
+                files,          // multiqc_files
+                [],             // multiqc_config
+                [],             // multiqc_logo
+                [],             // replace_names
+                []              // sample_names
+            ] 
+        }
     )
     
     softwareVersionsToYAML(ch_versions.unique().collect())
