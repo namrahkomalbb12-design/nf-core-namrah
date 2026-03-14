@@ -45,7 +45,16 @@ workflow NAMRAH {
 
     // 3. STAR_ALIGN 
     // Spec says: Reads, Index, GTF, ignore_gtf (false)
-    STAR_ALIGN ( TRIMGALORE.out.reads, ch_star_index, ch_gtf, false ) 
+   // 3. STAR_ALIGN 
+    // We create a dummy meta [[:]] for the references so the module doesn't crash
+    STAR_ALIGN ( 
+        TRIMGALORE.out.reads, 
+        ch_star_index.map { [ [:], it ] }, 
+        ch_gtf.map { [ [:], it ] }, 
+        false,
+        '',
+        '' 
+    )
     ch_multiqc_files = ch_multiqc_files.mix(STAR_ALIGN.out.log_final.collect{ it[1] })
 
     // 4. SALMON_QUANT
