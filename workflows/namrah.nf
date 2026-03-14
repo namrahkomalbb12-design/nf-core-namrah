@@ -56,7 +56,14 @@ workflow NAMRAH {
 
     // 4. SALMON_QUANT
     // Spec says: Reads, Index, GTF, Transcriptome, AlignmentMode (false), libType (false)
-    SALMON_QUANT ( TRIMGALORE.out.reads, ch_salmon_index, ch_gtf, ch_transcriptome, false, false )
+   SALMON_QUANT ( 
+    TRIMGALORE.out.reads, 
+    ch_salmon_index.map { [ [:], it ] }, 
+    ch_gtf.map { [ [:], it ] }, 
+    ch_transcriptome.map { [ [:], it ] }, 
+    false, 
+    false 
+)
     ch_multiqc_files = ch_multiqc_files.mix(SALMON_QUANT.out.results.collect{ it[1] })
 
     // 5. DUPRADAR (New - from spec)
@@ -76,7 +83,17 @@ workflow NAMRAH {
     ch_multiqc_files = ch_multiqc_files.mix(QUALIMAP_RNASEQ.out.results.collect{ it[1] })
 
     // 7. MULTIQC
-   MULTIQC ( ch_multiqc_files.collect().map { files -> [ [id:'multiqc'], files ] } )
+   // 7. MULTIQC
+    // MultiQC usually expects: [meta, files], config, extra_config, logo, search_patterns, user_config
+    // We provide the meta + files tuple, then empty lists for the rest.
+    MULTIQC ( 
+        ch_multiqc_files.collect().map { files -> [ [id:'multiqc'], files ] },
+        [],
+        [],
+        [],
+        [],
+        []
+    )
 
     // Note: I have removed the ch_versions mixing for now to prevent the 
     // "No such property: versions" error until the pipeline logic is stable.
