@@ -77,8 +77,4 @@ workflow NAMRAH {
 
     emit:
     versions = ch_versions
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes
