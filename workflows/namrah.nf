@@ -56,14 +56,15 @@ workflow NAMRAH {
 
     // 4. SALMON_QUANT
     // Spec says: Reads, Index, GTF, Transcriptome, AlignmentMode (false), libType (false)
-   SALMON_QUANT ( 
-    TRIMGALORE.out.reads, 
-    ch_salmon_index.map { [ [:], it ] }, 
-    ch_gtf.map { [ [:], it ] }, 
-    ch_transcriptome.map { [ [:], it ] }, 
-    false, 
-    false 
-)
+  
+    SALMON_QUANT ( 
+        TRIMGALORE.out.reads, 
+        ch_salmon_index.map { [ [:], it ] }, 
+        ch_gtf.map { [ [:], it ] }, 
+        ch_transcriptome.map { [ [:], it ] }, 
+        false, 
+        false 
+    )
     ch_multiqc_files = ch_multiqc_files.mix(SALMON_QUANT.out.results.collect{ it[1] })
 
     // 5. DUPRADAR (New - from spec)
