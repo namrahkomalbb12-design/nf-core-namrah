@@ -54,9 +54,8 @@ workflow NAMRAH {
     )
     ch_multiqc_files = ch_multiqc_files.mix(STAR_ALIGN.out.log_final.collect{ it[1] })
 
-    // 4. SALMON_QUANT
-    // Spec says: Reads, Index, GTF, Transcriptome, AlignmentMode (false), libType (false)
-  
+   // 4. SALMON_QUANT
+    // Wrapping every single file input in a [[:], path] tuple
     SALMON_QUANT ( 
         TRIMGALORE.out.reads, 
         ch_salmon_index.map { [ [:], it ] }, 
@@ -65,6 +64,7 @@ workflow NAMRAH {
         false, 
         false 
     )
+    
     ch_multiqc_files = ch_multiqc_files.mix(SALMON_QUANT.out.results.collect{ it[1] })
 
     // 5. DUPRADAR (New - from spec)
