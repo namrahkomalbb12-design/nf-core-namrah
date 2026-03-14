@@ -76,7 +76,7 @@ workflow NAMRAH {
     ch_multiqc_files = ch_multiqc_files.mix(QUALIMAP_RNASEQ.out.results.collect{ it[1] })
 
     // 7. MULTIQC
-    MULTIQC ( ch_multiqc_files.collect() ) 
+   MULTIQC ( ch_multiqc_files.collect().map { files -> [ [id:'multiqc'], files ] } )
 
     // Note: I have removed the ch_versions mixing for now to prevent the 
     // "No such property: versions" error until the pipeline logic is stable.
