@@ -56,7 +56,7 @@ workflow NAMRAH {
     ch_versions      = ch_versions.mix(SALMON_QUANT.out.versions_salmon)
 
     // 5. MULTIQC
-    MULTIQC ( ch_multiqc_files.collect(), [], [], [] ) 
+    MULTIQC ( ch_multiqc_files.collect() ) 
     ch_versions = ch_versions.mix(MULTIQC.out.versions_multiqc)
     //
     // Collate and save software versions
