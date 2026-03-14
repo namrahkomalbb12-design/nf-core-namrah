@@ -82,17 +82,11 @@ workflow NAMRAH {
     )
     ch_multiqc_files = ch_multiqc_files.mix(QUALIMAP_RNASEQ.out.results.collect{ it[1] })
 
+   
     // 7. MULTIQC
-   // 7. MULTIQC
-    // MultiQC usually expects: [meta, files], config, extra_config, logo, search_patterns, user_config
-    // We provide the meta + files tuple, then empty lists for the rest.
+    // This version only takes ONE input: a list containing [meta, files]
     MULTIQC ( 
-        ch_multiqc_files.collect().map { files -> [ [id:'multiqc'], files ] },
-        [],
-        [],
-        [],
-        [],
-        []
+        ch_multiqc_files.collect().map { files -> [ [id:'multiqc'], files ] }
     )
 
     // Note: I have removed the ch_versions mixing for now to prevent the 
