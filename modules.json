@@ -1,31 +1,56 @@
 {
-    "name": "nf-core/namrah",
-    "homePage": "https://github.com/nf-core/namrah",
-    "repos": {
-        "https://github.com/nf-core/modules.git": {
-            "modules": {
-                "nf-core": {
-                }
-            },
-            "subworkflows": {
-                "nf-core": {
-                    "utils_nextflow_pipeline": {
-                        "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
-                        "installed_by": ["subworkflows"]
-                    },
-                    "utils_nfcore_pipeline": {
-                        "branch": "master",
-                        "git_sha": "271e7fc14eb1320364416d996fb077421f3faed2",
-                        "installed_by": ["subworkflows"]
-                    },
-                    "utils_nfschema_plugin": {
-                        "branch": "master",
-                        "git_sha": "4b406a74dc0449c0401ed87d5bfff4252fd277fd",
-                        "installed_by": ["subworkflows"]
-                    }
-                }
-            }
+  "name": "nf-core/namrah",
+  "homePage": "https://github.com/nf-core/namrah",
+  "repos": {
+    "https://github.com/nf-core/modules.git": {
+      "modules": {
+        "nf-core": {
+          "fastqc": {
+            "branch": "master",
+            "git_sha": "3009f27c4e4b6e99da4eeebe82799e13924a4a1f",
+            "installed_by": ["modules"]
+          },
+          "multiqc": {
+            "branch": "master",
+            "git_sha": "2c73cc8fa92cf48de3da0b643fdf357a8a290b36",
+            "installed_by": ["modules"]
+          },
+          "salmon/quant": {
+            "branch": "master",
+            "git_sha": "9ebc300e05af07c770b86ff089581a2d41346c8b",
+            "installed_by": ["modules"]
+          },
+          "star/align": {
+            "branch": "master",
+            "git_sha": "cebe21bbd158c15c8fab172e37cfe97a239f4b77",
+            "installed_by": ["modules"]
+          },
+          "trimgalore": {
+            "branch": "master",
+            "git_sha": "eed5d14302a6c9070dcc25feeab707a27a4b3254",
+            "installed_by": ["modules"]
+          }
         }
+      },
+      "subworkflows": {
+        "nf-core": {
+          "utils_nextflow_pipeline": {
+            "branch": "master",
+            "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+            "installed_by": ["subworkflows"]
+          },
+          "utils_nfcore_pipeline": {
+            "branch": "master",
+            "git_sha": "271e7fc14eb1320364416d996fb077421f3faed2",
+            "installed_by": ["subworkflows"]
+          },
+          "utils_nfschema_plugin": {
+            "branch": "master",
+            "git_sha": "4b406a74dc0449c0401ed87d5bfff4252fd277fd",
+            "installed_by": ["subworkflows"]
+          }
+        }
+      }
     }
+  }
 }

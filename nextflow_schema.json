@@ -5,6 +5,7 @@
     "description": "rnasequencepipeline",
     "type": "object",
     "$defs": {
+        
         "input_output_options": {
             "title": "Input/output options",
             "type": "object",
@@ -38,6 +39,40 @@
                 }
             }
         },
+        "reference_genome_options": {
+  "title": "Reference genome options",
+  "type": "object",
+  "description": "Parameters for the Saccharomyces cerevisiae R64 reference",
+  "default": "",
+  "properties": {
+    "fasta": {
+      "type": "string",
+      "format": "file-path",
+      "description": "Path to FASTA genome file",
+      "help_text": "Full path to the Saccharomyces cerevisiae R64-1-1 DNA toplevel FASTA file."
+    },
+    "gtf": {
+      "type": "string",
+      "format": "file-path",
+      "description": "Path to GTF annotation file"
+    },
+    "transcriptome": {
+      "type": "string",
+      "format": "file-path",
+      "description": "Path to transcriptome FASTA file"
+    },
+    "star_index": {
+      "type": "string",
+      "format": "directory-path",
+      "description": "Path to STAR index directory"
+    },
+    "salmon_index": {
+      "type": "string",
+      "format": "directory-path",
+      "description": "Path to Salmon index directory"
+    }
+  }
+},
         "institutional_config_options": {
             "title": "Institutional config options",
             "type": "object",
@@ -169,6 +204,7 @@
                 }
             }
         }
+        
     },
     "allOf": [
         {
@@ -179,6 +215,10 @@
         },
         {
             "$ref": "#/$defs/generic_options"
+        },
+        {
+            "$ref": "#/definitions/reference_genome_options"
         }
     ]
+    
 }
