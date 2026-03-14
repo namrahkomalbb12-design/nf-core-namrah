@@ -28,7 +28,7 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_namr
 workflow NFCORE_NAMRAH {
 
     take:
-    samplesheet // channel: samplesheet read in from --input
+    samplesheet_seminar // channel: samplesheet read in from --input
 
     main:
 
