@@ -22,6 +22,13 @@ workflow NAMRAH {
     take:
     ch_samplesheet // channel: samplesheet read in from --input
     main:
+    main:
+    // Create reusable channels for the reference files
+    ch_fasta        = Channel.fromPath(params.fasta).first()
+    ch_gtf          = Channel.fromPath(params.gtf).first()
+    ch_star_index   = Channel.fromPath(params.star_index).first()
+    ch_salmon_index = Channel.fromPath(params.salmon_index).first()
+    ch_transcriptome = Channel.fromPath(params.transcriptome).first()
 
     ch_versions = channel.empty()
     // 1. Initialize a channel for MultiQC report files
@@ -40,10 +47,10 @@ workflow NAMRAH {
 
     // 4. MODULE: STAR Alignment
     // Uses trimmed reads and the parameters you set in test.config
-    STAR_ALIGN ( 
+  STAR_ALIGN ( 
         TRIMGALORE.out.reads, 
-        params.star_index, 
-        params.gtf, 
+        ch_star_index, 
+        ch_gtf, 
         true, 
         '', 
         '' 
@@ -52,11 +59,11 @@ workflow NAMRAH {
     ch_versions = ch_versions.mix(STAR_ALIGN.out.versions)
 
     // 5. MODULE: Salmon Quantification
-    SALMON_QUANT ( 
+   SALMON_QUANT ( 
         STAR_ALIGN.out.bam, 
-        params.salmon_index, 
-        params.gtf, 
-        params.transcriptome, 
+        ch_salmon_index, 
+        ch_gtf, 
+        ch_transcriptome, 
         true, 
         'IU' 
     )
