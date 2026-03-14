@@ -60,7 +60,12 @@ workflow NAMRAH {
     ch_multiqc_files = ch_multiqc_files.mix(SALMON_QUANT.out.results.collect{ it[1] })
 
     // 5. DUPRADAR (New - from spec)
-    DUPRADAR ( STAR_ALIGN.out.bam, ch_gtf )
+   // 5. DUPRADAR
+    // We pass the BAM (which already has meta from STAR) and wrap the GTF
+    DUPRADAR ( 
+        STAR_ALIGN.out.bam, 
+        ch_gtf.map { [ [:], it ] } 
+    )
     ch_multiqc_files = ch_multiqc_files.mix(DUPRADAR.out.multiqc.collect{ it[1] })
 
     // 6. QUALIMAP_RNASEQ (New - from spec)
