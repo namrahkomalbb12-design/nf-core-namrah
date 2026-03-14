@@ -53,11 +53,11 @@ workflow NAMRAH {
     // Pass the unsorted BAM from STAR
     SALMON_QUANT ( STAR_ALIGN.out.bam_unsorted, ch_salmon_index, ch_gtf, ch_transcriptome, true, 'IU' )
     ch_multiqc_files = ch_multiqc_files.mix(SALMON_QUANT.out.results.collect{ it[1] })
-    ch_versions      = ch_versions.mix(SALMON_QUANT.out.versions)
+    ch_versions      = ch_versions.mix(SALMON_QUANT.out.versions_salmon)
 
     // 5. MULTIQC
     MULTIQC ( ch_multiqc_files.collect(), [], [], [] ) 
-    ch_versions = ch_versions.mix(MULTIQC.out.versions)
+    ch_versions = ch_versions.mix(MULTIQC.out.versions_multiqc)
     //
     // Collate and save software versions
     //
