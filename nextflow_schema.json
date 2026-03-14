@@ -217,7 +217,7 @@
             "$ref": "#/$defs/generic_options"
         },
         {
-            "$ref": "#/definitions/reference_genome_options"
+            "$ref": "#/$defs/reference_genome_options"
         }
     ]
     
