@@ -43,17 +43,14 @@ workflow NAMRAH {
     ch_multiqc_files = ch_multiqc_files.mix(TRIMGALORE.out.zip.collect{ it[1] })
     ch_multiqc_files = ch_multiqc_files.mix(TRIMGALORE.out.log.collect{ it[1] })
 
-    // 3. STAR_ALIGN 
-    // Spec says: Reads, Index, GTF, ignore_gtf (false)
-   // 3. STAR_ALIGN 
-    // We create a dummy meta [[:]] for the references so the module doesn't crash
+   
+  // 3. STAR_ALIGN 
+    // This matches the 4-input signature: reads, index, gtf, ignore_gtf
     STAR_ALIGN ( 
         TRIMGALORE.out.reads, 
         ch_star_index.map { [ [:], it ] }, 
         ch_gtf.map { [ [:], it ] }, 
-        false,
-        '',
-        '' 
+        false
     )
     ch_multiqc_files = ch_multiqc_files.mix(STAR_ALIGN.out.log_final.collect{ it[1] })
 
