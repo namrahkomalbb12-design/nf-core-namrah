@@ -43,7 +43,7 @@ workflow NAMRAH {
     ch_multiqc_files = ch_multiqc_files.mix(TRIMGALORE.out.zip.collect{ it[1] })
     ch_multiqc_files = ch_multiqc_files.mix(TRIMGALORE.out.log.collect{ it[1] })
 
-   
+
   // 3. STAR_ALIGN 
     // This matches the 4-input signature: reads, index, gtf, ignore_gtf
     STAR_ALIGN ( 
@@ -58,7 +58,7 @@ workflow NAMRAH {
     
  SALMON_QUANT ( 
         TRIMGALORE.out.reads, 
-        ch_salmon_index,     // <--- Changed from ch_star_index
+        ch_salmon_index,    
         ch_gtf, 
         ch_transcriptome, 
         false, 
@@ -67,16 +67,16 @@ workflow NAMRAH {
     
     ch_multiqc_files = ch_multiqc_files.mix(SALMON_QUANT.out.results.collect{ it[1] })
 
-    // 5. DUPRADAR (New - from spec)
+   
    // 5. DUPRADAR
-    // We pass the BAM (which already has meta from STAR) and wrap the GTF
+    // I pass the BAM (which already has meta from STAR) and wrap the GTF
     DUPRADAR ( 
         STAR_ALIGN.out.bam, 
         ch_gtf.map { [ [:], it ] } 
     )
     ch_multiqc_files = ch_multiqc_files.mix(DUPRADAR.out.multiqc.collect{ it[1] })
 
-    // 6. QUALIMAP_RNASEQ (New - from spec)
+    // 6. QUALIMAP_RNASEQ 
     QUALIMAP_RNASEQ ( 
         STAR_ALIGN.out.bam, 
         ch_gtf.map { [ [:], it ] } 
